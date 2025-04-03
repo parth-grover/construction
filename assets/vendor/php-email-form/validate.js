@@ -55,16 +55,17 @@
       body: formData,
       headers: {'X-Requested-With': 'XMLHttpRequest'}
     })
+    .then(response => response.json()) 
     .then(response => {
-      if( response.ok ) {
-        return response.text();
+      if( response.status == "success" ) {
+        return response;
       } else {
         throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
       }
     })
     .then(data => {
       thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
+      if (data.status == "success") {
         thisForm.querySelector('.sent-message').classList.add('d-block');
         thisForm.reset(); 
       } else {
